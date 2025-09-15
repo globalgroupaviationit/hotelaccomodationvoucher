@@ -76,7 +76,7 @@
       box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
     }
     
-    .booking-item {
+    .booking-item, .transport-item {
       background: #f8f9fa;
       padding: 20px;
       border-radius: 8px;
@@ -84,14 +84,14 @@
       border: 1px solid #e9ecef;
     }
     
-    .booking-header {
+    .booking-header, .transport-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
     }
     
-    .booking-title {
+    .booking-title, .transport-title {
       font-weight: 600;
       font-size: 16px;
     }
@@ -247,7 +247,7 @@
       text-align: left;
     }
     
-    .booking-details-header {
+    .booking-details-header, .transport-details-header {
       background: #1a4d2e;
       color: white;
       text-align: center;
@@ -260,7 +260,7 @@
       z-index: 2;
     }
     
-    .booking-table {
+    .booking-table, .transport-table {
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 30px;
@@ -268,52 +268,107 @@
       z-index: 2;
     }
     
-    .booking-table th,
-    .booking-table td {
+    .booking-table th, .booking-table td,
+    .transport-table th, .transport-table td {
       border: 1px solid #ddd;
       padding: 12px;
       text-align: left;
     }
     
-    .booking-table th {
+    .booking-table th, .transport-table th {
       background: #f8f9fa;
       font-weight: 600;
     }
     
+    .policies-section {
+      background: #f8f9fa;
+      padding: 20px;
+      margin-top: 20px;
+      border-top: 2px solid #ddd;
+      font-size: 10px;
+      line-height: 1.4;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .policies-title {
+      font-weight: 700;
+      font-size: 12px;
+      margin-bottom: 15px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .policy-item {
+      margin-bottom: 8px;
+    }
+    
+    .policy-number {
+      font-weight: 700;
+      margin-right: 5px;
+    }
+    
     .voucher-footer {
-      height: 300px;
+      height: 50px;
       background: #f8f9fa;
       position: relative;
       z-index: 2;
     }
     
-    /* Watermark */
-    .watermark {
+    /* Large Background Watermark */
+    .background-watermark {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      opacity: 0.05;
+      opacity: 0.03;
       z-index: 1;
       pointer-events: none;
     }
     
-    .watermark img {
-      max-width: 400px;
+    .background-watermark img {
+      max-width: 800px;
       height: auto;
     }
     
-    /* Bottom Right Logo */
-    .bottom-right-logo {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      z-index: 2;
+    /* Transport Sector Input */
+    .sector-input-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
     }
     
-    .bottom-right-logo img {
-      max-width: 120px;
-      height: auto;
+    .sector-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    .add-sector-btn {
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    
+    .add-sector-btn:hover {
+      background: #219653;
+    }
+    
+    .other-city-input {
+      margin-top: 10px;
+      display: none;
     }
     
     @media (max-width: 768px) {
@@ -342,12 +397,13 @@
         justify-content: center;
       }
       
-      .bottom-right-logo img {
-        max-width: 80px;
+      .background-watermark img {
+        max-width: 600px;
       }
       
-      .watermark img {
-        max-width: 300px;
+      .policies-section {
+        font-size: 9px;
+        padding: 15px;
       }
     }
   </style>
@@ -384,12 +440,37 @@
       <button id="add-booking" class="btn btn-primary">
         <i class="fas fa-plus"></i> Add Another Booking
       </button>
+      
+      <h2 class="form-title">Transport Details</h2>
+      <div class="transport-item">
+        <div class="transport-header">
+          <div class="transport-title">Transport Information</div>
+        </div>
+        
+        <div id="sectors-container">
+          <!-- Sectors will be added here dynamically -->
+        </div>
+        
+        <div class="form-grid" style="margin-top: 20px;">
+          <div class="form-group">
+            <label>Vehicle</label>
+            <input type="text" id="transport-vehicle" class="form-control" placeholder="Enter Vehicle">
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="transport-category" class="form-control">
+              <option value="Private">Private</option>
+              <option value="Company">Company</option>
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
     
     <div class="voucher-container" id="voucher-preview">
-      <!-- Watermark in center -->
-      <div class="watermark">
-        <img src="https://i.postimg.cc/9f6ChKLF/Global-Hajj-Update-Logo-2025.png" alt="Global Hajj Watermark">
+      <!-- Large Background Watermark -->
+      <div class="background-watermark">
+        <img src="https://i.postimg.cc/7hCT9DpT/Global-Hajj-and-Umrah-Group-png-1.png" alt="Global Hajj Watermark">
       </div>
       
       <div class="voucher-header">
@@ -442,14 +523,64 @@
         <div id="display-bookings">
           <!-- Booking tables will be added here dynamically -->
         </div>
+        
+        <div class="transport-details-header">Transport Details</div>
+        
+        <div id="display-transport">
+          <!-- Transport table will be added here dynamically -->
+        </div>
+        
+        <!-- Policies Section -->
+        <div class="policies-section">
+          <div class="policies-title">Important Policies and Guidelines</div>
+          <div class="policy-item">
+            <span class="policy-number">1.</span>
+            Your hotel and package are detailed in this document, and accommodation and other facilities will be provided to you accordingly.
+          </div>
+          <div class="policy-item">
+            <span class="policy-number">2.</span>
+            Carrying miscellaneous items to the Haramain Sharifain (the Two Holy Mosques) is prohibited by the Saudi administration. In case of a violation, the government can impose a fine, for which you will be responsible.
+          </div>
+          <div class="policy-item">
+            <span class="policy-number">3.</span>
+            The use of intoxicants and sheesha (hookah) is forbidden. The penalty for carrying narcotics into Saudi Arabia is death.
+          </div>
+          <div class="policy-item">
+            <span class="policy-number">4.</span>
+            Inside the Haramain Sharifain (Masjid al-Haram and Masjid an-Nabawi), you will be responsible for your belongings (money, mobile phone, etc.). Otherwise, you will face difficulties during your stay.
+          </div>
+          <div class="policy-item">
+            <span class="policy-number">5.</span>
+            At Jeddah airport, be sure to ask the immigration/Saudi sponsorship representative where you will be staying for 3 to 5 hours and inform your relatives who have come to see you off from your country of departure.
+          </div>
+          <div class="policy-item">
+            <span class="policy-number">6.</span>
+            After checking out of the hotel or building at 2 PM, any additional charges for Night Charge, Early Hotel Charge, or Late Check-out will be your responsibility.
+          </div>
+          <div class="policy-item">
+            <span class="policy-number">7.</span>
+            On your return flight, you are responsible for your luggage at the airport. You are responsible for informing the company about any forgotten luggage.
+          </div>
+          <div class="policy-item">
+            <span class="policy-number">8.</span>
+            According to Saudi law, working in a hotel other than your designated one is a crime. If you are caught by the police working in another hotel, you will be solely responsible for any legal consequences or resulting losses.
+          </div>
+          <div class="policy-item">
+            <span class="policy-number">9.</span>
+            All pilgrims are required to stay in their rooms from one day before their departure until their flight.
+          </div>
+          <div class="policy-item">
+            <span class="policy-number">10.</span>
+            Pilgrims whose passports and visas are with them should contact the staff in both countries and ensure they have a copy of their passport and visa with them at all times. Otherwise, the pilgrim will be responsible for any damages.
+          </div>
+          <div class="policy-item">
+            <span class="policy-number">11.</span>
+            All pilgrims, besides staying in their hotel rooms, should contact the staff at the provided number 36 hours before their flight to confirm their transport. Otherwise, other transportation will not be provided. In this case, the company will not be responsible.
+          </div>
+        </div>
       </div>
       
       <div class="voucher-footer"></div>
-      
-      <!-- Logo in bottom right -->
-      <div class="bottom-right-logo">
-        <img src="https://i.postimg.cc/9f6ChKLF/Global-Hajj-Update-Logo-2025.png" alt="Global Hajj Logo">
-      </div>
     </div>
     
     <div class="export-section">
@@ -466,6 +597,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Initialize data
       let bookings = [];
+      let transportSectors = [];
       let generatedData = {
         date: '',
         voucherNo: ''
@@ -562,6 +694,13 @@
         
         // Add first booking
         addBooking();
+        
+        // Add first transport sector
+        addTransportSector();
+        
+        // Initialize event listeners for vehicle and category
+        document.getElementById('transport-vehicle').addEventListener('input', updateTransportDisplay);
+        document.getElementById('transport-category').addEventListener('change', updateTransportDisplay);
       }
       
       // Create a new booking
@@ -571,6 +710,7 @@
         
         const booking = {
           city: 'Makkah',
+          cityOther: '',
           hotelName: '',
           checkIn: '',
           checkOut: '',
@@ -602,7 +742,11 @@
                 <select class="form-control booking-city" data-index="${index}">
                   <option value="Makkah" ${booking.city === 'Makkah' ? 'selected' : ''}>Makkah</option>
                   <option value="Medina" ${booking.city === 'Medina' ? 'selected' : ''}>Medina</option>
+                  <option value="Other" ${booking.city === 'Other' ? 'selected' : ''}>Other</option>
                 </select>
+                <div class="other-city-input" id="other-city-${index}" style="${booking.city === 'Other' ? 'display: block;' : 'display: none;'}">
+                  <input type="text" class="form-control other-city-name" data-index="${index}" placeholder="Specify City Name" value="${booking.cityOther}">
+                </div>
               </div>
               <div class="form-group">
                 <label>Hotel Name</label>
@@ -635,6 +779,24 @@
           el.addEventListener('change', function() {
             const index = parseInt(this.dataset.index);
             bookings[index].city = this.value;
+            
+            // Show/hide other city input
+            const otherCityInput = document.getElementById(`other-city-${index}`);
+            if (this.value === 'Other') {
+              otherCityInput.style.display = 'block';
+            } else {
+              otherCityInput.style.display = 'none';
+              bookings[index].cityOther = '';
+            }
+            
+            renderBookings();
+          });
+        });
+        
+        document.querySelectorAll('.other-city-name').forEach(el => {
+          el.addEventListener('input', function() {
+            const index = parseInt(this.dataset.index);
+            bookings[index].cityOther = this.value;
             renderBookings();
           });
         });
@@ -688,10 +850,16 @@
         container.innerHTML = '';
         
         bookings.forEach((booking, index) => {
+          // Determine display city name
+          let displayCity = booking.city;
+          if (booking.city === 'Other' && booking.cityOther) {
+            displayCity = booking.cityOther;
+          }
+          
           const bookingTable = document.createElement('div');
           bookingTable.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-              <div style="font-weight: 700; font-size: 18px;">City : ${booking.city}</div>
+              <div style="font-weight: 700; font-size: 18px;">City : ${displayCity}</div>
               <div style="font-weight: 700; font-size: 18px;">Hotel Name : ${booking.hotelName || 'XXX'}</div>
             </div>
             <table class="booking-table">
@@ -720,6 +888,80 @@
         });
       }
       
+      // Add a new transport sector
+      function addTransportSector() {
+        const sectorIndex = transportSectors.length;
+        
+        const sectorContainer = document.getElementById('sectors-container');
+        const sectorElement = document.createElement('div');
+        sectorElement.className = 'sector-input-container';
+        sectorElement.innerHTML = `
+          <input type="text" class="sector-input" placeholder="Enter Sector ${sectorIndex + 1}" data-index="${sectorIndex}">
+          <button class="add-sector-btn" id="add-sector-${sectorIndex}">
+            <i class="fas fa-plus"></i>
+          </button>
+        `;
+        
+        sectorContainer.appendChild(sectorElement);
+        
+        // Add event listener to the input
+        const input = sectorElement.querySelector('.sector-input');
+        input.addEventListener('input', function() {
+          const index = parseInt(this.dataset.index);
+          if (index >= transportSectors.length) {
+            // Extend array if needed
+            while (transportSectors.length <= index) {
+              transportSectors.push('');
+            }
+          }
+          transportSectors[index] = this.value;
+          updateTransportDisplay();
+        });
+        
+        // Add event listener to the add button
+        const addButton = sectorElement.querySelector('.add-sector-btn');
+        addButton.addEventListener('click', function() {
+          addTransportSector();
+        });
+        
+        // Initialize the sector in the array
+        if (sectorIndex >= transportSectors.length) {
+          transportSectors.push('');
+        }
+      }
+      
+      // Update transport display in voucher
+      function updateTransportDisplay() {
+        const container = document.getElementById('display-transport');
+        container.innerHTML = '';
+        
+        // Filter out empty sectors
+        const filledSectors = transportSectors.filter(sector => sector.trim() !== '');
+        
+        if (filledSectors.length > 0) {
+          const transportTable = document.createElement('table');
+          transportTable.className = 'transport-table';
+          transportTable.innerHTML = `
+            <thead>
+              <tr>
+                <th>Sectors</th>
+                <th>Vehicle</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>${filledSectors.join(' - ')}</td>
+                <td>${document.getElementById('transport-vehicle').value || '---'}</td>
+                <td>${document.getElementById('transport-category').value}</td>
+              </tr>
+            </tbody>
+          `;
+          
+          container.appendChild(transportTable);
+        }
+      }
+      
       // Update voucher display with form data
       function updateVoucherDisplay() {
         document.getElementById('display-contact-person').textContent = document.getElementById('contactPerson').value || 'XXX';
@@ -737,6 +979,7 @@
         
         // Update display with current form values
         updateVoucherDisplay();
+        updateTransportDisplay();
         
         setTimeout(() => {
           const element = document.getElementById('voucher-preview');
@@ -776,6 +1019,7 @@
         
         // Update display with current form values
         updateVoucherDisplay();
+        updateTransportDisplay();
         
         setTimeout(() => {
           const element = document.getElementById('voucher-preview');
