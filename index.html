@@ -370,6 +370,18 @@
       margin-top: 10px;
       display: none;
     }
+
+    /* Added Note Style */
+    .checkin-note {
+      text-align: center;
+      color: red;
+      font-weight: 700;
+      margin-top: 15px;
+      font-size: 14px;
+      position: relative;
+      z-index: 2;
+      text-transform: uppercase;
+    }
     
     @media (max-width: 768px) {
       .form-grid {
@@ -434,8 +446,7 @@
       
       <h2 class="form-title">Booking Details</h2>
       <div id="bookings-container">
-        <!-- Bookings will be added here dynamically -->
-      </div>
+        </div>
       
       <button id="add-booking" class="btn btn-primary">
         <i class="fas fa-plus"></i> Add Another Booking
@@ -448,8 +459,7 @@
         </div>
         
         <div id="sectors-container">
-          <!-- Sectors will be added here dynamically -->
-        </div>
+          </div>
         
         <div class="form-grid" style="margin-top: 20px;">
           <div class="form-group">
@@ -468,7 +478,6 @@
     </div>
     
     <div class="voucher-container" id="voucher-preview">
-      <!-- Large Background Watermark -->
       <div class="background-watermark">
         <img src="https://i.postimg.cc/7hCT9DpT/Global-Hajj-and-Umrah-Group-png-1.png" alt="Global Hajj Watermark">
       </div>
@@ -521,16 +530,13 @@
         <div class="booking-details-header">Booking Details</div>
         
         <div id="display-bookings">
-          <!-- Booking tables will be added here dynamically -->
-        </div>
+          </div>
         
         <div class="transport-details-header">Transport Details</div>
         
         <div id="display-transport">
-          <!-- Transport table will be added here dynamically -->
-        </div>
+          </div>
         
-        <!-- Policies Section -->
         <div class="policies-section">
           <div class="policies-title">Important Policies and Guidelines</div>
           <div class="policy-item">
@@ -555,7 +561,7 @@
           </div>
           <div class="policy-item">
             <span class="policy-number">6.</span>
-            After checking out of the hotel or building at 2 PM, any additional charges for Night Charge, Early Hotel Charge, or Late Check-out will be your responsibility.
+            After checking out of the hotel or building at 12 PM, any additional charges for Night Charge, Early Hotel Charge, or Late Check-out will be your responsibility.
           </div>
           <div class="policy-item">
             <span class="policy-number">7.</span>
@@ -578,6 +584,11 @@
             All pilgrims, besides staying in their hotel rooms, should contact the staff at the provided number 36 hours before their flight to confirm their transport. Otherwise, other transportation will not be provided. In this case, the company will not be responsible.
           </div>
         </div>
+
+        <div class="checkin-note">
+          Checkin time is 4pm and Checkout time is 12pm
+        </div>
+
       </div>
       
       <div class="voucher-footer"></div>
