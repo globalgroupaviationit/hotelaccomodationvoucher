@@ -238,7 +238,7 @@
     
     .label {
       font-weight: 700;
-      width: 180px;
+      width: 220px; /* Increased slightly to accommodate longer labels */
       text-align: right;
     }
     
@@ -427,20 +427,20 @@
       
       <div class="form-grid">
         <div class="form-group">
-          <label for="pos">POS</label>
-          <input type="text" id="pos" class="form-control" placeholder="Enter POS">
-        </div>
-        <div class="form-group">
-          <label for="saudiContactNo">Saudi Contact No.</label>
-          <input type="text" id="saudiContactNo" class="form-control" placeholder="Enter Saudi Contact Number">
-        </div>
-        <div class="form-group">
-          <label for="contactPerson">Contact Person</label>
-          <input type="text" id="contactPerson" class="form-control" placeholder="Enter Contact Person">
+          <label for="clientName">Client Name</label>
+          <input type="text" id="clientName" class="form-control" placeholder="Enter Client Name">
         </div>
         <div class="form-group">
           <label for="contactNo">Contact No.</label>
           <input type="text" id="contactNo" class="form-control" placeholder="Enter Contact Number">
+        </div>
+        <div class="form-group">
+          <label for="pos">POS</label>
+          <input type="text" id="pos" class="form-control" placeholder="Enter POS">
+        </div>
+        <div class="form-group">
+          <label for="posContactNo">POS Contact No.</label>
+          <input type="text" id="posContactNo" class="form-control" placeholder="Enter POS Contact Number">
         </div>
       </div>
       
@@ -507,8 +507,8 @@
           <div class="value">: <span id="display-date">DD-MM-YYYY</span></div>
         </div>
         <div class="voucher-row">
-          <div class="label">Contact Person</div>
-          <div class="value">: <span id="display-contact-person">XXX</span></div>
+          <div class="label">Client Name</div>
+          <div class="value">: <span id="display-client-name">XXX</span></div>
         </div>
         <div class="voucher-row">
           <div class="label">Voucher No.</div>
@@ -523,8 +523,12 @@
           <div class="value">: <span id="display-pos">XXX</span></div>
         </div>
         <div class="voucher-row">
-          <div class="label">Saudi Contact No.</div>
-          <div class="value">: <span id="display-saudi-contact">XXX</span></div>
+          <div class="label">POS Contact No.</div>
+          <div class="value">: <span id="display-pos-contact">XXX</span></div>
+        </div>
+        <div class="voucher-row">
+          <div class="label">Saudi Contact Person</div>
+          <div class="value">: <span>RAFIQ - +966 50 202 0679</span></div>
         </div>
         
         <div class="booking-details-header">Booking Details</div>
@@ -598,8 +602,8 @@
       <button id="export-pdf" class="btn btn-export btn-blue">
         <i class="fas fa-file-pdf"></i> Export to PDF
       </button>
-      <button id="export-png" class="btn btn-export btn-green">
-        <i class="fas fa-file-image"></i> Export to PNG
+      <button id="export-jpg" class="btn btn-export btn-green">
+        <i class="fas fa-file-image"></i> Export to JPG
       </button>
     </div>
   </div>
@@ -975,10 +979,10 @@
       
       // Update voucher display with form data
       function updateVoucherDisplay() {
-        document.getElementById('display-contact-person').textContent = document.getElementById('contactPerson').value || 'XXX';
+        document.getElementById('display-client-name').textContent = document.getElementById('clientName').value || 'XXX';
         document.getElementById('display-contact-no').textContent = document.getElementById('contactNo').value || 'XXX';
         document.getElementById('display-pos').textContent = document.getElementById('pos').value || 'XXX';
-        document.getElementById('display-saudi-contact').textContent = document.getElementById('saudiContactNo').value || 'XXX';
+        document.getElementById('display-pos-contact').textContent = document.getElementById('posContactNo').value || 'XXX';
       }
       
       // Export to PDF
@@ -1000,15 +1004,20 @@
             useCORS: true,
             allowTaint: true
           }).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
+            // Convert to JPEG with 0.75 quality to reduce file size significantly
+            const imgData = canvas.toDataURL('image/jpeg', 0.75);
             const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
             
             const imgWidth = 210; // A4 width in mm
             const pageHeight = 297; // A4 height in mm
             const imgHeight = canvas.height * imgWidth / canvas.width;
             
-            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-            pdf.save('hotel-voucher.pdf');
+            pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+            
+            // Set Dynamic Filename
+            const voucherNo = generatedData.voucherNo;
+            const clientName = document.getElementById('clientName').value.trim() || 'Client';
+            pdf.save(`${voucherNo}_${clientName}.pdf`);
             
             button.disabled = false;
             button.innerHTML = originalHTML;
@@ -1021,8 +1030,8 @@
         }, 500);
       });
       
-      // Export to PNG
-      document.getElementById('export-png').addEventListener('click', function() {
+      // Export to JPG
+      document.getElementById('export-jpg').addEventListener('click', function() {
         const button = this;
         const originalHTML = button.innerHTML;
         button.disabled = true;
@@ -1041,15 +1050,21 @@
             allowTaint: true
           }).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'hotel-voucher.png';
-            link.href = canvas.toDataURL('image/png');
+            
+            // Set Dynamic Filename
+            const voucherNo = generatedData.voucherNo;
+            const clientName = document.getElementById('clientName').value.trim() || 'Client';
+            link.download = `${voucherNo}_${clientName}.jpg`;
+            
+            // Export as JPEG with 0.8 quality
+            link.href = canvas.toDataURL('image/jpeg', 0.8);
             link.click();
             
             button.disabled = false;
             button.innerHTML = originalHTML;
           }).catch(error => {
-            console.error('Error generating PNG:', error);
-            alert('Error generating PNG. Please try again.');
+            console.error('Error generating JPG:', error);
+            alert('Error generating JPG. Please try again.');
             button.disabled = false;
             button.innerHTML = originalHTML;
           });
@@ -1061,8 +1076,8 @@
       
       // Form field event listeners
       document.getElementById('pos').addEventListener('input', updateVoucherDisplay);
-      document.getElementById('saudiContactNo').addEventListener('input', updateVoucherDisplay);
-      document.getElementById('contactPerson').addEventListener('input', updateVoucherDisplay);
+      document.getElementById('posContactNo').addEventListener('input', updateVoucherDisplay);
+      document.getElementById('clientName').addEventListener('input', updateVoucherDisplay);
       document.getElementById('contactNo').addEventListener('input', updateVoucherDisplay);
       
       // Initialize the app
